@@ -2,27 +2,30 @@ package org.bibliarij.currencyconverter
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.KotlinModule
+import android.view.View
+import android.widget.ArrayAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.doAsync
-import retrofit2.Retrofit
-import retrofit2.converter.jackson.JacksonConverterFactory
+import java.math.BigDecimal
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
 
-        private val jacksonMapper = ObjectMapper()
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .registerModule(KotlinModule())
+        private val currencyConverterApi: CurrencyConverterApi = CurrencyConverterApi()
+    }
 
-        private val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://free.currencyconverterapi.com/api/v6/")
-            .addConverterFactory(JacksonConverterFactory.create(jacksonMapper))
-            .build()
+    fun convertButtonOnClick(view: View) {
 
-        private val currencyConverterApi: CurrencyConverterApi = retrofit.create(CurrencyConverterApi::class.java)
+        val pair: String = "${sourceCurrencySpinner.selectedItem}_${targetCurrencySpinner.selectedItem}"
+
+        doAsync {
+
+            val rate = currencyConverterApi.getRate(pair)
+            val result: BigDecimal = rate.multiply(BigDecimal(sourceCurrencyAmountTextView.text.toString()))
+
+            result
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +33,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         doAsync {
-            val body: CurrenciesResponse = currencyConverterApi.getCurrencies().execute().body()!!
+
+            val currencies: Map<String, Currency> = currencyConverterApi.getCurrencies()
+            val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(
+                applicationContext, android.R.layout.simple_spinner_item, currencies.keys.toList().sorted()
+            )
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+            runOnUiThread {
+                sourceCurrencySpinner.adapter = arrayAdapter
+                targetCurrencySpinner.adapter = arrayAdapter
+            }
         }
     }
 }
