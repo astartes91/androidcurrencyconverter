@@ -17,14 +17,20 @@ class MainActivity : AppCompatActivity() {
 
     fun convertButtonOnClick(view: View) {
 
-        val pair: String = "${sourceCurrencySpinner.selectedItem}_${targetCurrencySpinner.selectedItem}"
+        val sourceCurrency = sourceCurrencySpinner.selectedItem
+        val targetCurrency = targetCurrencySpinner.selectedItem
+        val pair: String = "${sourceCurrency}_$targetCurrency"
 
         doAsync {
 
-            val rate = currencyConverterApi.getRate(pair)
-            val result: BigDecimal = rate.multiply(BigDecimal(sourceCurrencyAmountTextView.text.toString()))
+            val rate: BigDecimal = currencyConverterApi.getRate(pair)
+            val sourceAmount: BigDecimal = BigDecimal(sourceCurrencyAmountTextView.text.toString())
+            val result: BigDecimal = rate.multiply(sourceAmount)
 
-            result
+            runOnUiThread {
+                resultTextView.text = "Результат: $sourceAmount $sourceCurrency -> $result $targetCurrency"
+                resultTextView.visibility = View.VISIBLE
+            }
         }
     }
 
