@@ -11,7 +11,7 @@ import java.math.BigDecimal
 
 class MainActivity : AppCompatActivity() {
 
-    private val currencyConverterApi: CurrencyConverterApi = CurrencyConverterApi(this)
+    private lateinit var currencyConverterClient: CurrencyConverterClient
 
     fun convertButtonOnClick(view: View) {
 
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         doAsync {
 
-            val rate: BigDecimal = currencyConverterApi.getRate(pair)
+            val rate: BigDecimal = currencyConverterClient.getRate(pair)
             var sourceAmountStr: String = sourceCurrencyAmountEditText.text.toString()
             if(sourceAmountStr.isEmpty()){
                 sourceCurrencyAmountEditText.text.append("0")
@@ -46,12 +46,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        currencyConverterClient = CurrencyConverterClient(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         doAsync {
 
-            val currencies: Map<String, Currency> = currencyConverterApi.getCurrencies()
+            val currencies: Map<String, Currency> = currencyConverterClient.getCurrencies()
             val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(
                 applicationContext, android.R.layout.simple_spinner_item, currencies.keys.toList().sorted()
             )

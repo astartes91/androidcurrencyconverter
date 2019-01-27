@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import java.math.BigDecimal
 
-interface CurrencyConverterRestApi {
+interface CurrencyConverterRestClient {
 
     @GET("currencies")
     fun getCurrencies(): Call<CurrenciesResponse>
