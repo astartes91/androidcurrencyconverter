@@ -1,4 +1,4 @@
-package org.bibliarij.currencyconverter
+package org.bibliarij.currencyconverter.client
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -10,6 +10,8 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.bibliarij.currencyconverter.model.CurrenciesResponse
+import org.bibliarij.currencyconverter.model.Currency
 import org.jetbrains.anko.runOnUiThread
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory

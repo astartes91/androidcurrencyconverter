@@ -1,5 +1,6 @@
-package org.bibliarij.currencyconverter
+package org.bibliarij.currencyconverter.client
 
+import org.bibliarij.currencyconverter.model.CurrenciesResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

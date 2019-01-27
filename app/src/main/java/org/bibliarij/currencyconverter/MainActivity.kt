@@ -7,6 +7,8 @@ import android.text.TextWatcher
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
+import org.bibliarij.currencyconverter.client.CurrencyConverterClient
+import org.bibliarij.currencyconverter.model.Currency
 import org.jetbrains.anko.doAsync
 import java.math.BigDecimal
 
