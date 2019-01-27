@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/sourceCurrencySpinner"
             app:layout_constraintTop_toBottomOf="@+id/sourceTextView"
-            app:layout_constraintEnd_toStartOf="@+id/sourceCurrencyAmountTextView"
+            app:layout_constraintEnd_toStartOf="@+id/sourceCurrencyAmountEditText"
             android:layout_marginBottom="18dp" app:layout_constraintBottom_toTopOf="@+id/targetTextView"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp" android:layout_marginEnd="23dp" android:layout_marginRight="23dp"
@@ -55,10 +55,11 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:ems="10"
-            android:id="@+id/sourceCurrencyAmountTextView"
+            android:id="@+id/sourceCurrencyAmountEditText"
             app:layout_constraintStart_toEndOf="@+id/sourceCurrencySpinner" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="14dp"
-            android:layout_marginRight="14dp" app:layout_constraintTop_toBottomOf="@+id/sourceTextView"/>
+            android:layout_marginRight="14dp" app:layout_constraintTop_toBottomOf="@+id/sourceTextView" tools:text="0"
+            android:text="0"/>
     <TextView
             android:text="Результат"
             android:layout_width="wrap_content"
